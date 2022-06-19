@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+<head>
+  <meta charset="UTF-8">
+  <title>정보 수정</title>
+  <!--https://jqueryui.com/ -->
+  <!-- Ui interface 관련 링크 (ui.css,ui.js) -->
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+  <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+  <style type="text/css">
+
+		*{
+		    margin: 0;
+		    padding: 0;
+		    box-sizing: border-box;
+  		}
+		.rgform1{/*회원가입 form*/
+			height:1189px;
+			width:1050px;
+		}
+		/* info div style */
+        .infodiv{
+         width: 100%;
+         height: 150px;
+         text-align: center;
+         vertical-align: middle;
+         line-height: 150px;
+          }
+         .infodiv > p{
+         font-size: 33px;
+         }
+		.page_sub{
+			height:27px;
+			width:640px;
+			line-height: 17px;
+			color: #666;
+			font-size: 12px;
+			padding-rignt:10px;
+			text-align: right;
+			border-bottom: 2px solid black ;
+		}
+		.rgtable{
+			width:640px;
+		}
+		.rgth{
+			height:64px;
+		    width: 259px;
+		    padding: 20px 0 0 20px;
+		    font-weight: 700;
+		    font-size: 14px;
+		    color: #333;
+		    line-height: 20px;
+		    vertical-align: top;
+		    text-align: left;
+		    padding-top: 29px;
+		    border: 1px solid #ccc;
+		}
+		.rgtd{
+			width:450px;
+			height:74px;
+			padding-left:15px;
+			border: 1px solid #ccc;
+		}
+		.rgtd2{
+			border: 1px solid #ccc;
+			color:black;
+		}
+		.rginput{
+			width:300px;
+		    height: 44px;
+		    padding: 0 14px;
+		    border: 1px solid #ccc;
+		    font-size: 14px;
+		    line-height: 20px;
+		    border-radius: 3px;
+		    outline: none;
+		    vertical-align: top;
+		}
+		.ico{
+			color: #ee6a7b;
+		}
+
+
+		.label_default{
+			width:113.76px;
+			height:44px;
+			font-size: 14px;
+    		line-height: 22px;
+    		display: inline-block;
+    		padding: 10px 52px 10px 0;
+    		vertical-align: top;
+    		border: 1px solid #ccc;
+
+		}
+
+		.marginleft{
+			margin-right:125px;
+		}
+
+
+		.label [type="radio"]{
+			width:18px;height:18px;border:1px;
+			margin:0px 12px 0px 12px;
+			vertical-align: top;
+		}
+		.text{
+			font-size: 14px;
+			vertical-align: top;
+			color:#33333375;
+		}
+
+		.adress{
+			margin-top:10px;
+		}
+
+		/*우편번호크기*/
+		.rginput2{
+			width: 230px;
+		    height: 44px;
+		    padding: 0px 14px;
+		    border: 1px solid #ccc;
+		    font-size: 14px;
+		    line-height: 20px;
+		    border-radius: 3px;
+		    outline: none;
+		    vertical-align: top;
+		}
+
+		#birth{
+			width:332px;
+			height:44px;
+
+		}
+		.birth1{
+			width:95px;
+			height:40px;
+			padding:0px 14px;
+		}
+		/* 버튼 스타일 */
+		.btn_check{ /*우편번호 찾기 버튼*/
+			border: 1px solid #5f0080;
+		    color: #5f0080;
+		    display: inline-block;
+		    width: 150px;
+		    height:44px;
+		    margin-left: 5px;
+		    vertical-align: top;
+		    border-radius: 3px;
+		    font-weight: 700;
+		    font-size: 14px;
+		    line-height: 40px;
+		    text-align: center;
+		    outline: none;
+		}
+		.btn_register{ /*탈퇴, 수정*/
+			width: 240px;
+		    height: 56px;
+		    font-size: 18px;
+		    line-height: 54px;
+		    margin-top:20px;
+		    background-color:white;
+		}
+
+		#btn_delete { /*탈퇴*/
+			border:1px solid black;
+			float:left;
+			margin-left:250px;
+		}
+
+		#btn_update{ /*수정*/
+			border:1px solid black;
+			margin-right:180px;
+		}
+	</style>
+  <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+  <script type="text/javascript">
+		$(document).ready(function(){
+			//$('.rgtd input').addClass('marginleft');
+			//$('.rgtd #birth input').removeClass('marginleft');
+
+
+			//월
+			var months=['1','2','3','4','5','6','7','8','9','10','11','12'];
+			$.each(months,function(index,item){
+				console.log(item);
+				optvalue = '<option value="'+ item +'">'+ item +'</option>';
+				$('#birth2').append(optvalue);
+			});
+
+			//월 기존정보 뜨게 하기
+			$('option[value="${requestScope.bean.birth2}"]').attr('selected',true);
+
+
+
+$('#pwCheck1').hide();//비밀번호 숨기기
+$('.newForm1').hide();//비밀번호 숨기기
+$('.newForm2').hide();//비밀번호 숨기기
+$('.newForm3').hide();	//주소 숨기기
+
+$('#re').click(function(){ // 주소 버튼 클릭하면 새 주소 창 나타나기
+	$('#re').hide();
+	$('.newForm3').show();
+	$('#findpost').hide();//주소숨기기
+	$('#goodAdress').hide();//주소 숨기기
+});
+
+
+$('#pwCheck').click(function(){ // 기존 비밀번호 확인 및 새 비밀번호 창 나타나기
+var a = document.getElementById('nowpassword').value;
+if('${sessionScope.bean.password}'==a){
+	$('#pwCheck').hide();
+	$('.newForm1').show(); // 새 비밀번호 나타나기
+	$('.newForm2').show(); // 비밀번호 확인 나타나기
+	$('#nowpassword').attr('readonly',true); // 현재 비밀번호는 수정불가능하게 바꾸기
+}else{
+	$('#nowpassword').val('')
+	.attr("placeholder",'비밀번호가 틀렸습니다. 다시 입력하세요.').focus();
+}
+});
+
+
+// 비밀번호 유효성 검사
+
+$('#newpassword').focus(function(){
+	$('#newPwForm').show().addClass('notForm');
+});
+$('#repassword').focus(function(){
+	$('#repwNum').show();
+	});
+});
+
+// 탈퇴 버튼 누르면 경고창
+$('#btn_delete').click(function(){
+	var result = confirm('정말 탈퇴하시겠습니까??');
+	if(result){
+		return true;
+	}
+	return false;
+});
+
+
+});
+
+//우편번호찾기
+function kakaopost() {
+    new daum.Postcode({
+        oncomplete: function(data) {
+           document.querySelector("#zipcode").value = data.zonecode;
+           document.querySelector("#address1").value = data.address;
+        }
+    }).open();
+}
+
+	</script>
+</head>
+<body>
+
+<form name="myform" action="/member/update" method="post">
+  <input type="hidden" name="command" value="emUpdate">
+  <div class="container">
+    <div class="rgform1" align="center">
+      <div class="infodiv">
+        <p class="infop">회원 정보 수정 </p>
+      </div>
+
+      <p class="page_sub" ><span class="ico">*</span>필수사항입력</p>
+      <table class="rgtable">
+        <tr>
+          <th class="rgth">아이디<span class="ico">*</span></th>
+          <td class="rgtd"><!--적혀있음 -->
+            <input class="rginput" type="text" name="fakeid" id="fakeid" value="${requestScope.bean.id}" disabled="disabled">
+            <input class="rginput" type="hidden" name="id" id="id" value="${requestScope.bean.id}">
+          </td>
+        </tr>
+        <tr>
+          <th class="rgth">현재 비밀번호<span class="ico">*</span></th>
+          <td class="rgtd">
+            <input class="rginput" type="password" placeholder="현재 비밀번호를 입력하세요." name="nowpassword" id="nowpassword" value="" >
+            <input type="button" class="form-control" id="pwCheck" value="비밀번호 확인" >
+          </td>
+        </tr>
+
+        <tr class="newForm1">
+          <th class="rgth">새 비밀번호<span class="ico">*</span></th>
+          <td class="rgtd" id="newPwForm">
+            <input class="rginput" type="password" placeholder="새 비밀 번호를 입력하세요." name="newpassword" id="newpassword" value="">
+        </tr>
+
+        <tr class="newForm2">
+          <th class="rgth">새 비밀번호 확인<span class="ico">*</span></th>
+          <td class="rgtd" id="rePwForm">
+            <input class="rginput" type="password" placeholder="비밀번호를 한번 더 입력해주세요" name="repassword" id="repassword"
+                   value="">
+            <input type="hidden" id="password"name="password" value="${sessionScope.bean.password }">
+          </td>
+        </tr>
+
+        <tr>
+          <th class="rgth">이름<span class="ico">*</span></th><!--적혀있기 -->
+          <td class="rgtd">
+            <input class="rginput" type="text" name="name" id="name"
+                   value="${requestScope.bean.name}">
+          </td>
+        </tr>
+        <tr>
+          <th class="rgth">휴대전화<span class="ico">*</span></th><!--적혀있기 -->
+          <td class="rgtd">
+            <input class="rginput" type="text" name="phone" id="phone"
+                   value="${requestScope.bean.phone}">
+          </td>
+        </tr>
+        <tr>
+          <th class="rgth">이메일<span class="ico">*</span></th><!--적혀있기 -->
+          <td class="rgtd">
+            <input class="rginput" type="text" name="email" id="email"
+                   value="${requestScope.bean.email}">
+          </td>
+        </tr>
+        <tr>
+          <th class="rgth">성별<span class="ico">*</span></th><!--적혀있기 -->
+          <td class="rgtd2">
+            <label class="label" >
+              <th:each  test="${requestScope.bean.gender == '남자'}">
+                <input type="radio" name="gender" id="gender" value="남자" checked="checked" ><span class="text">남자</span>
+              </th:each>
+              <th:each test="${requestScope.bean.gender != '남자'}">
+                <input type="radio" name="gender" id="gender" value="남자" ><span class="text">남자</span>
+              </th:each>
+            </label>
+            <label class="label" >
+              <th:each test="${requestScope.bean.gender == '여자'}">
+                <input type="radio" name="gender" id="gender" value="여자" checked="checked" ><span class="text">여자</span>
+              </th:each>
+              <th:each test="${requestScope.bean.gender != '여자'}">
+                <input type="radio" name="gender" id="gender" value="여자"><span class="text">여자</span>
+              </th:each>
+            </label>
+          </td>
+        </tr>
+        <tr>
+          <th class="rgth">생년월일<span class="ico">*</span></th>
+          <td class="rgtd">
+            <div id="birth" align="left">
+              <input type="text" class="birth1" name="birth1" value="${requestScope.bean.birth1}" >
+              <select class="birth1" id ="birth2" name="birth2">
+                <option value="-"></option>
+              </select>
+              <input type="text" class="birth1" name="birth3" value="${requestScope.bean.birth3}" >
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <th class="rgth">현재 주소<span class="ico">*</span></th>
+
+          <td class="rgtd">
+            <input class="rginput" type="text" name="fakeaddress" id="fakeaddress" value="${sessionScope.bean.address}" disabled="disabled">
+            <input type="hidden" name="address" value="${sessionScope.bean.address}">
+            <input type="button" class="form-control" id="re" value="주소 수정">
+          </td>
+        </tr>
+
+        <tr class="newForm3">
+          <th class="rgth">새 주소<span class="ico">*</span></th>
+          <td class="rgtd">
+            <div id="c">
+              <input class="rginput2" type="text" name="zipcode" id="zipcode" placeholder="우편번호" size="4" readonly value="">
+              <input class="btn_check rginput" type="button" value="우편번호찾기"  onclick="kakaopost();">
+            </div>
+            <div class="adress" align="left">
+              <input class="rginput" type="text" name="address1" id="address1"  placeholder="주소" size="70" readonly value="">
+            </div>
+            <div class="adress" align="left">
+              <input class="rginput" type="text" name="address2" id="address2"  placeholder="상세 주소" size="70" value="">
+            </div>
+          </td>
+        </tr>
+      </table>
+      <p class="page_sub"></p>
+      <div>
+        <div class="btn_register" id="btn_delete"  onclick="location.href='<%=noForm%>emDelete&id=${sessionScope.loginfo.id}'" style="cursor: pointer;">
+          탈퇴하기
+        </div>
+        <button type="submit" class="btn_register" id="btn_update" >수정하기</button>
+      </div>
+    </div>
+
+  </div>
+</form>
+
+
+</body>
+</html>

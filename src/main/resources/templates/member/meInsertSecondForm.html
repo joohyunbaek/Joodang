@@ -1,0 +1,379 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/common :: html-head">
+  <meta charset="UTF-8">
+  <title>회원가입2</title>
+</head>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js">
+  </script>
+  <style type="text/css">
+
+*{margin: 0 auto; padding: 0 auto; box-sizing: border-box;}
+body{font-family: 'Note Sans KR', sans-serif;}
+#contents{
+	margin: 0 auto ;
+	width: 100%;
+	text-align: center;
+}
+.page_tit {
+	width: 100%;
+	height: 200px;
+	background-color: #F8F8F8;
+	padding-top: 30px;
+}
+
+.page_tit h2 {
+	font-size: 40px;
+	font-weight: 600;
+}
+
+.onandoff {
+	width: 100%;
+	float:left;
+	text-align: center;
+}
+
+.onandoff li {
+	display: inline-block;
+	padding-top: 30px;
+	padding-right: 10px;
+	font-size: 18px;
+	font-weight: 600;
+}
+.off{color:LightGray;}
+
+
+		.rgform1{/*회원가입 form*/
+			height:100%;
+			width:100%;
+			margin:auto;
+		}
+		.rgheader{
+			height:136px;
+			width:1050px;
+			margin: 0 auto;
+   			padding: 50px 0 51px;
+			border: 1px solid #ccc;
+		}
+		.page_sub{
+			height:27px;
+			width:640px;
+			line-height: 17px;
+			color: #666;
+			font-size: 12px;
+			padding-rignt:10px;
+			text-align: right;
+			border-bottom: 2px solid black ;
+		}
+		.rgtable{
+			width:640px;
+		}
+		.rgth{
+			height:74px;
+		    width: 159px;
+		    padding: 20px 0 0 20px;
+		    font-weight: 700;
+		    font-size: 14px;
+		    color: #333;
+		    line-height: 20px;
+		    vertical-align: top;
+		    text-align: left;
+		    padding-top: 29px;
+		    border: 1px solid #ccc;
+		}
+		.rgtd{
+			width:481px;
+			height:74px;
+			text-align: left;
+			border: 1px solid #ccc;
+			padding-left:10px;
+		}
+		.rgtd2{
+			border: 1px solid #ccc;
+			color:black;
+		}
+		.rgtd3{
+			width:481px;
+			height:180px;
+			text-align: center;
+			border: 1px solid #ccc;
+		}
+		.rginput{
+			width:332px;
+		    height: 44px;
+		    padding: 0 14px;
+		    border: 1px solid #ccc;
+		    font-size: 14px;
+		    line-height: 20px;
+		    border-radius: 3px;
+		    outline: none;
+		    vertical-align: top;
+		}
+		.address{
+			width:332px;
+		    height: 44px;
+		    padding: 0 14px;
+		    border: 1px solid #ccc;
+		    font-size: 14px;
+		    line-height: 20px;
+		    border-radius: 3px;
+		    outline: none;
+		    vertical-align: top;
+		}
+		.ico{
+			color: #ee6a7b;
+		}
+		.btn_check{
+			border: 1px solid black;
+		    color: black;
+		    display: inline-block;
+		    width: 120px;
+		    height:44px;
+		    margin-left: 5px;
+		    vertical-align: top;
+		    border-radius: 3px;
+		    font-weight: 700;
+		    font-size: 14px;
+		    line-height: 40px;
+		    text-align: center;
+		    outline: none;
+		}
+		.label_default{
+			width:113.76px;
+			height:44px;
+			font-size: 14px;
+    		line-height: 22px;
+    		display: inline-block;
+    		padding: 10px 52px 10px 0;
+    		vertical-align: top;
+    		border: 1px solid #ccc;
+		}
+		.marginleft{
+			margin-right:125px;
+		}
+		.label [type="radio"]{
+			width:18px;height:18px;border:1px;
+			margin:0px 12px 0px 5px;
+			vertical-align: top;
+		}
+		.text{
+			font-size: 14px;
+			vertical-align: top;
+			color:#33333375;
+		}
+		.adress{
+			margin-left:10px;
+			margin-top:10px;
+		}
+		#birth{
+			width:332px;
+			height:44px;
+			padding:0px 0px 0px 18px;
+		}
+		.birth1{
+			width:84px;
+			height:40px;
+			padding:0px 14px;
+		}
+		.btn_register{
+			width: 240px;
+		    height: 56px;
+		    font-size: 16px;
+		    line-height: 54px;
+		    margin-top:20px;
+		    margin-bottom:20px;
+		    background-color:white;
+		}
+		.textsize{
+			font-size:11px;
+			text-align: left;
+			line-height: 10px;
+			margin-left:20px;
+			margin-top:5px;
+		}
+		/*
+        .valid, .invalid {
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .valid { color: green; }
+
+        .invalid { color: red; }
+        }
+        */
+
+	</style>
+  <th:block layout:common="script">
+  <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+
+  <script type="text/javascript">
+	$(document).ready(function(){
+	});
+	// 비밀번호 정규식 특수문자, 문자, 숫자 포함 8~16자
+	var pwRegex =  /^.*(?=^.{8,16}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/;
+		$('input[name=password]').blur(function(){
+			var passwordTest=pwRegex.test($('input[name=password]').val());
+			if(passwordTest&&$('input[name=password]').val()==$('input[name=repassword]').val()){
+				passwordPass=true;
+				$('#repasswordRegex').text('성공');
+			}else if(!passwordTest){
+				passwordPass=false;
+				$('#repasswordRegex').text('비밀번호가 형식에 맞지 않습니다.');
+			}else if($('input[name=password]').val()!=$('input[name=repassword]').val()){
+				passwordPass=false;
+				$('repasswordRegex').text('비밀번호가 일치하지 않습니다.');
+			}
+		});
+
+	//우편번호찾기
+	function kakaopost() {
+	    new daum.Postcode({
+	        oncomplete: function(data) {
+	           document.querySelector("#zipcode").value = data.zonecode;
+	           document.querySelector("#address1").value = data.address;
+	        }
+	    }).open();
+	}
+
+    <%--이메일 중복검사 시도중
+    // 이메일 중복 검사
+    $('.btn_check').on('click', function() {
+          emailcheck();
+    });
+
+	function emailcheck(){
+		var $email = $('[name=email]');
+		if($email.hasClass('chked')) return;
+	    console.log('go check');
+
+        var data = join.tag_status($email);
+	    if(data.code != 'valid') {
+          alert('아이디 중복 확인 불필요\n' + data.desc);
+          $email.focus();
+          return;
+	    }
+        $.ajax({
+                type: 'post',
+                url: 'emailcheck',
+                data: {email: $email.val()},
+                success: function(data) {
+                    data = join.email_usable(data);
+                    display_status($email.siblings('div'), data);
+                    $email.addClass('chked');
+                },
+                error: function(req, text) {
+                    alert(text + ': ' + req.status);
+                }
+            });
+    }
+	};
+	--%>
+
+	</script>
+  </th:block>
+</head>
+<body>
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script type="text/javascript">
+    $(document).ready( function() {
+       $("#com").load("/joodang/templates/common/common.html");  // 원하는 파일 경로를 삽입하면 된다
+    });
+  </script>
+<div id="com"></div>
+  <div id="contents">
+    <form action="/members/new" role="form" method="post" th:object="${memberFormDto}">
+      <input type="hidden" name="command" value="emInsert">
+    <div class="page_tit">
+      <h2><span>회원가입</span></h2>
+      <ul class="onandoff">
+        <li class="off">1. 이용약관 동의</li>
+        <li><img src="./../images/insert/page_tit_arrow.png"></li>
+        <li class="on">2. 회원정보 입력</li>
+        <li><img src="./../images/insert/page_tit_arrow.png"></li>
+        <li class="off">3. 회원가입 완료</li>
+      </ul>
+    </div>
+
+    <div class="rgform1" align="center">
+      <p class="page_sub" ><span class="ico">*</span>필수사항입력</p>
+      <table class="rgtable">
+        <tr>
+          <th class="rgth">이메일<span class="ico">*</span></th>
+          <td class="rgtd">
+            <input class="rginput" type="text" name="email" id="email"
+                   placeholder="joodang@joodang.com" value="">
+            <a class="btn_check" id="aaa" >중복확인</a><br>
+            <!-- <div class='valid'>아이디를 입력하세요. (영문 소문자, 숫자만 입력 가능)</div> -->
+          </td>
+        </tr>
+
+        <tr>
+          <th class="rgth">비밀번호<span class="ico">*</span></th>
+          <td class="rgtd">
+            <input class="rginput" type="password" name="password" id="password"
+                   placeholder="비밀번호를 입력하세요." value="" >
+          </td>
+        </tr>
+
+        <tr>
+          <th class="rgth">비밀번호확인<span class="ico">*</span></th>
+          <td class="rgtd">
+            <input class="rginput" type="password" name="repassword" id="repassword"
+                   placeholder="비밀번호를 한번 더 입력해주세요" value="">
+          </td>
+        </tr>
+
+        <tr>
+          <th class="rgth">이름<span class="ico">*</span></th>
+          <td class="rgtd">
+            <input class="rginput" type="text" name="name" id="name"
+                   placeholder="이름을 입력해주세요" value="">
+
+          </td>
+        </tr>
+        <tr>
+          <th class="rgth">휴대전화<span class="ico">*</span></th>
+          <td class="rgtd">
+            <input class="rginput" type="text" name="phone" id="phone"
+                   placeholder="ex) 010-1234-1234" value="">
+          </td>
+        </tr>
+        <tr>
+          <th class="rgth">주소<span class="ico">*</span></th>
+          <td class="rgtd3" >
+            <div id="c">
+              <input class="rginput" type="text" name="zipcode" id="zipcode" placeholder="우편번호" size="7" value="" readonly>
+              <input class="btn_check rginput" type="button" value="우편번호찾기"  onclick="kakaopost();">
+            </div>
+            <div class="adress" align="left">
+              <input class="rginput" type="text" name="address1" id="address1"  placeholder="주소" size="70" value="" readonly>
+
+            </div>
+            <div class="adress" align="left">
+              <input class="rginput" type="text" name="address2" id="address2"  placeholder="상세 주소" size="70" value="">
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <th class="rgth">성별<span class="ico">*</span></th>
+          <td class="rgtd2" id="radioCheck">
+            <label class="label" >
+              <input type="radio" name="gender" id="gender1" value="남자"><span class="text">남자</span>
+            </label>
+            <label class="label" >
+              <input type="radio" name="gender" id="gender2" value="여자"><span class="text">여자</span>
+            </label>
+          </td>
+        </tr>
+      </table>
+      <p class="page_sub" ></p>
+      <button class="btn_register" type="submit" onclick="location.href='/joodang/templates/member/meInsertThirdForm.html'">가입하기</button>
+    </div>
+    </form>
+  </div>
+</form>
+</body>
+</html>
