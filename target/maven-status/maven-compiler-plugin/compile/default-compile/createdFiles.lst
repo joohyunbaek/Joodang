@@ -1,0 +1,4 @@
+com/joodang/member/controller/MemberController.class
+com/joodang/member/entity/QMember.class
+com/joodang/member/entity/Member.class
+com/joodang/member/constant/Role.class
